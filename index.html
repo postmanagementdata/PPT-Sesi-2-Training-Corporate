@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="description" content="Presentasi Sesi 2 Corporate Excel Training — IF Family Mastery oleh Post Management Data." />
+  <title>Sesi 2 — IF Family | Post Management Data</title>
+  <style>
+    :root {
+      /* Dark Theme Palette */
+      --bg-body: #0a0a0a;
+      --bg-slide: #121212;
+      --bg-card: #1e1e1e;
+      --bg-panel: #1a1a1a;
+      --gold: #facc15; /* Dibuat lebih terang (kuning terang) */
+      --caramel: #fbbf24; 
+      --text-main: #ffffff; /* Putih bersih untuk heading */
+      --text-light: #f3f4f6; /* Sangat terang untuk paragraf utama */
+      --text-muted: #9ca3af; /* Abu-abu terang untuk catatan kecil */
+      --line: #374151;
+      --shadow: 0 22px 70px rgba(0, 0, 0, .6);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg-body); color: var(--text-main); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    button { font: inherit; }
+    
+    /* Topbar & Navigation */
+    .topbar { height: 58px; padding: 0 22px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-bottom: 1px solid var(--line); background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); }
+    
+    .brand { display: flex; align-items: center; min-width: 0; }
+    .brand-logo { height: 38px; width: auto; object-fit: contain; }
+    
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .quiet-btn { border: 1px solid var(--line); background: transparent; color: var(--text-light); border-radius: 9px; padding: 8px 11px; font-size: 11px; cursor: pointer; transition: .2s; }
+    .quiet-btn:hover, .quiet-btn:focus-visible { background: var(--bg-card); color: var(--gold); outline: none; }
+    
+    /* Main Presentation Area */
+    main { flex: 1; display: grid; place-items: center; padding: 20px 18px; position: relative; }
+    .presentation { width: min(100%, 1120px); aspect-ratio: 16 / 9; max-height: calc(100vh - 142px); min-height: 390px; position: relative; background: var(--bg-slide); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid #222; }
+    
+    .slide { position: absolute; inset: 0; padding: clamp(28px, 4.3vw, 58px) clamp(28px, 5vw, 68px) 52px; overflow: auto; opacity: 0; transform: translateX(24px); pointer-events: none; transition: opacity .3s ease, transform .3s ease; background: radial-gradient(ellipse at 100% 0%, rgba(250, 204, 21, 0.08), transparent 40%), var(--bg-slide); }
+    .slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 1; }
+    .slide.exit-left { transform: translateX(-24px); }
+    .slide-number { position: absolute; right: 27px; bottom: 20px; color: #9ca3af; font-size: 10px; letter-spacing: .16em; font-weight: 700; }
+    
+    /* Typography */
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--caramel); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; font-weight: 800; margin-bottom: 13px; }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: var(--caramel); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; font-size: clamp(36px, 5vw, 66px); letter-spacing: -.045em; line-height: 1.02; margin-bottom: 20px; color: var(--text-main); }
+    h2 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 3.4vw, 42px); line-height: 1.1; letter-spacing: -.035em; font-weight: 500; margin-bottom: 14px; color: var(--gold); }
+    h3 { font-size: 15px; line-height: 1.25; margin-bottom: 8px; color: var(--text-main); }
+    
+    /* Peningkatan Warna Teks */
+    p { color: var(--text-light); line-height: 1.55; font-size: clamp(12px, 1.15vw, 15px); }
+    .lead { max-width: 650px; font-size: clamp(15px, 1.65vw, 19px); color: #e5e7eb; line-height: 1.55; }
+    .accent { color: var(--caramel); }
+    
+    /* Cover Slide */
+    .cover { background: linear-gradient(135deg, #0a0a0a, #1a1a1a); color: var(--text-main); border-bottom: 1px solid var(--line); }
+    .cover::before { content: ""; position: absolute; width: 50%; aspect-ratio: 1; right: -12%; top: -25%; border-radius: 50%; border: 1px solid rgba(250, 204, 21, .15); box-shadow: 0 0 0 34px rgba(250, 204, 21, .04), 0 0 0 74px rgba(250, 204, 21, .02), 0 0 0 125px rgba(250, 204, 21, .01); }
+    .cover::after { content: ""; position: absolute; right: 12%; bottom: 15%; width: 19%; height: 29%; border: 1px solid rgba(250, 204, 21, .2); border-radius: 48% 48% 8px 8px; transform: rotate(14deg); }
+    .cover .eyebrow { color: var(--gold); }
+    .cover h1 { max-width: 700px; position: relative; z-index: 1; }
+    .cover .lead { color: #d1d5db; max-width: 560px; position: relative; z-index: 1; }
+    .cover-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; position: relative; z-index: 1; }
+    .pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 100px; color: #e5e7eb; font-size: 11px; letter-spacing: .02em; background: rgba(255,255,255,0.03); }
+    .cover-footer { position: absolute; left: clamp(28px, 5vw, 68px); bottom: 27px; color: #9ca3af; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+    
+    /* Layouts & Components */
+    .layout-two { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(20px, 4vw, 46px); align-items: center; }
+    .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 13px; margin-top: 25px; }
+    .card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 13px; padding: 17px 17px 15px; min-width: 0; }
+    .card p { font-size: 12px; margin-bottom: 0; color: #d1d5db; }
+    .icon-box { width: 35px; height: 35px; border-radius: 10px; background: rgba(250, 204, 21, 0.15); color: var(--gold); display: grid; place-items: center; font-size: 15px; font-weight: 800; margin-bottom: 12px; }
+    
+    .side-note { background: #1a1a1a; border: 1px solid var(--line); color: var(--text-main); border-radius: 14px; padding: 23px; position: relative; overflow: hidden; }
+    .side-note::after { content:""; position:absolute; right:-35px; bottom:-50px; width:150px; height:150px; border:1px solid rgba(255,255,255,.05); border-radius:50%; box-shadow: 0 0 0 22px rgba(255,255,255,.02); }
+    .side-note h3 { color: var(--gold); }
+    .side-note p { color: #e5e7eb; font-size: 12px; }
+    
+    .bottom-callout { display: flex; align-items: center; gap: 13px; padding: 15px 18px; background: rgba(250, 204, 21, 0.1); border-left: 3px solid var(--gold); border-radius: 8px; color: #f3f4f6; font-size: 12px; line-height: 1.5; }
+    
+    /* Compare Panels */
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 25px; }
+    .compare-panel { border-radius: 14px; padding: 21px; min-height: 228px; border: 1px solid var(--line); }
+    .raw { background: #2a1b1b; }
+    .master { background: #1b2a1b; }
+    .panel-tag { display: inline-block; font-size: 9px; text-transform: uppercase; letter-spacing: .15em; font-weight: 800; border-radius: 100px; padding: 6px 9px; background: rgba(255,255,255,.1); margin-bottom: 13px; color: #fff; }
+    .compare-panel ul { padding-left: 18px; margin: 10px 0 0; color: #e5e7eb; font-size: 12px; line-height: 1.8; }
+    .compare-panel p { color: #f3f4f6; }
+    
+    /* Formulas */
+    .formula { font: 13px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #fcd34d; background: #0d0d0d; border: 1px solid #4b5563; padding: 12px 14px; border-radius: 8px; display: inline-block; overflow-wrap: anywhere; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
+    .formula-stack { display: grid; gap: 10px; margin-top: 16px; }
+    .formula-row { display: grid; grid-template-columns: minmax(100px, .35fr) 1fr; align-items: center; gap: 12px; background: var(--bg-card); border: 1px solid var(--line); padding: 12px 14px; border-radius: 9px; }
+    .formula-row strong { font-size: 12px; color: var(--gold); }
+    .formula-row code { font-size: 12px; color: #fcd34d; white-space: normal; overflow-wrap: anywhere; font-family: ui-monospace, monospace; }
+    
+    /* CTA Button */
+    .btn-cta { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--gold); color: #0a0a0a; padding: 16px 36px; font-size: 16px; font-weight: 800; text-decoration: none; border-radius: 50px; transition: all .3s ease; box-shadow: 0 10px 20px -10px var(--gold); margin-top: 20px; border: none; cursor: pointer; }
+    .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -10px var(--gold); background: #eab308; }
+    
+    /* Footer & Controls */
+    .controls { min-height: 64px; color:var(--text-main); padding:10px 22px; display:flex; align-items:center; justify-content:space-between; gap:14px; border-top:1px solid var(--line); background:rgba(10, 10, 10, 0.95); }
+    .progress-wrap { display:flex; align-items:center; gap:12px; flex:1; max-width:390px; }
+    .progress-track { height:3px; background:var(--bg-card); border-radius:20px; flex:1; overflow:hidden; }
+    .progress-fill { height:100%; width:0; background:var(--gold); transition:width .25s ease; }
+    .counter { font-size:11px; color:var(--text-muted); min-width:45px; font-variant-numeric:tabular-nums; }
+    .navs { display:flex; gap:8px; align-items:center; }
+    .nav-btn { background:var(--gold); color:#0a0a0a; border:0; border-radius:10px; width:40px; height:38px; display:grid; place-items:center; cursor:pointer; font-size:18px; font-weight:800; transition:transform .15s, opacity .15s; }
+    .nav-btn:hover { transform:translateY(-1px); background: #eab308; }
+    .nav-btn:disabled { opacity:.2; cursor:not-allowed; transform:none; background: #4b5563; color: #9ca3af; }
+    .keyboard-hint { font-size:10px; color:#9ca3af; }
+    
+    /* Modals */
+    .note-pop { position: fixed; inset: 0; z-index: 10; display:none; background:rgba(0,0,0,.8); backdrop-filter: blur(5px); padding:18px; align-items:center; justify-content:center; }
+    .note-pop.open { display:flex; }
+    .note-card { width:min(620px,100%); max-height:80vh; overflow:auto; background:var(--bg-card); border: 1px solid var(--line); border-radius:16px; padding:25px; box-shadow:var(--shadow); }
+    .note-head { display:flex; align-items:center; justify-content:space-between; gap:15px; border-bottom: 1px solid var(--line); padding-bottom: 15px; margin-bottom: 15px; }
+    .note-head h3 { font-size:19px; font-family:Georgia,serif; color: var(--gold); }
+    .note-card p, .note-card li { font-size:13px; line-height: 1.6; color: #f3f4f6; }
+    
+    @media (max-width: 720px) {
+      .topbar { height:auto; min-height:54px; padding:8px 12px; flex-wrap:wrap; }
+      .top-actions { width:100%; flex-wrap:wrap; justify-content:flex-end; gap:6px; }
+      .brand-logo { height: 30px; }
+      .keyboard-hint { display:none; }
+      .quiet-btn { padding:7px 8px; font-size:10px; }
+      main { padding:12px 8px; }
+      .presentation { aspect-ratio:auto; height:min(72vh, 690px); min-height:480px; max-height:none; border-radius:12px; }
+      .slide { padding:27px 22px 48px; }
+      h1 { font-size:40px; }
+      h2 { font-size:30px; }
+      .layout-two { grid-template-columns:1fr; gap:16px; }
+      .card-grid { gap:8px; margin-top:16px; }
+      .card { padding:12px; }
+      .card p { font-size:10px; }
+      .compare { gap:9px; }
+      .compare-panel { padding:13px; min-height:unset; }
+      .compare-panel ul { padding-left:14px; font-size:10px; line-height:1.6; }
+      .formula-row { grid-template-columns:1fr; gap:4px; padding:10px; }
+      .side-note { padding:17px; }
+    }
+    @media print {
+      html, body { background:#fff; }
+      .topbar, .controls, .note-pop { display:none !important; }
+      main { display:block; padding:0; }
+      .presentation { width:100%; max-height:none; height:auto; aspect-ratio:auto; border-radius:0; overflow:visible; box-shadow:none; }
+      .slide, .slide.active { position:relative; inset:auto; opacity:1; transform:none; pointer-events:auto; width:100%; height:56.25vw; min-height:0; page-break-after:always; overflow:hidden; display:block; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" aria-label="Post Management Data">
+      <img src="logo-putih.png" alt="Post Management Data" class="brand-logo">
+    </div>
+    
+    <div class="top-actions">
+      <button class="quiet-btn" id="outlineBtn" type="button" title="Lihat ringkasan slide">Daftar materi</button>
+      <button class="quiet-btn" id="notesBtn" type="button" title="Buka catatan tutor">Catatan tutor</button>
+      <button class="quiet-btn" id="fullscreenBtn" type="button" title="Mode layar penuh">⛶ Layar penuh</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="presentation" id="presentation" aria-label="Presentasi Sesi 2" aria-live="polite">
+      
+      <!-- SLIDE 1: COVER -->
+      <section class="slide cover active" data-title="Pembuka" data-note="Buka sesi dengan menyampaikan bahwa hari ini kita akan membedah 'IF Family'. Tujuan hari ini adalah memahami cara memberikan instruksi logika bercabang ke Excel, mulai dari yang sederhana hingga penanganan error. Sampaikan bahwa ini adalah sesi praktik lanjutan dari fondasi data di Sesi 1.">
+        <div class="eyebrow">SESI 02 · LOGICAL FUNCTIONS</div>
+        <h1>IF Family<br><span class="accent">Mastery</span></h1>
+        <p class="lead">Membedah tuntas IF, AND, OR, IFS, dan IFERROR untuk otomatisasi pengambilan keputusan di Excel.</p>
+        <div class="cover-meta">
+          <span class="pill">PT Sinar Jernih Sarana</span>
+          <span class="pill">Corporate Excel Training</span>
+          <span class="pill">IFM Operations</span>
+        </div>
+        <div class="cover-footer">Post Management Data · Learn it, structure it, automate it</div>
+        <div class="slide-number">01 / 09</div>
+      </section>
+
+      <!-- SLIDE 2: AGENDA -->
+      <section class="slide" data-title="Peta Materi" data-note="Jelaskan bahwa IF Family punya 5 anggota. Kita akan mulai dari yang paling dasar (IF), lalu belajar logika gabungan (AND/OR), logika berurutan (IFS), dan jaring pengaman error (IFERROR).">
+        <div class="eyebrow">01 · AGENDA</div>
+        <h2>Anggota Keluarga IF</h2>
+        <p class="lead">Lima fungsi logika yang wajib dikuasai untuk pekerjaan operasional dan pelaporan.</p>
+        <div class="card-grid">
+          <div class="card"><div class="icon-box">01</div><h3>IF (Dasar)</h3><p>Menguji 1 syarat. Jika terpenuhi, tampilkan A. Jika tidak, tampilkan B.</p></div>
+          <div class="card"><div class="icon-box">02</div><h3>AND & OR (Multi-Syarat)</h3><p>AND (Semua wajib terpenuhi) dan OR (Salah satu cukup).</p></div>
+          <div class="card"><div class="icon-box">03</div><h3>IFS (Berurutan)</h3><p>Mengecek banyak syarat secara berurutan tanpa IF bersarang.</p></div>
+          <div class="card"><div class="icon-box">04</div><h3>IFERROR (Jaring Pengaman)</h3><p>Mengganti pesan error (#DIV/0! / #N/A) dengan pesan yang lebih rapi.</p></div>
+        </div>
+        <div class="slide-number">02 / 09</div>
+      </section>
+
+      <!-- SLIDE 3: IF -->
+      <section class="slide" data-title="Fungsi IF" data-note="Materi IF. Gunakan analogi Messi (Hujan vs Cerah). Tanya peserta: 'Kalau hujan, Messi main nggak?' Setelah dijawab, jelaskan jembatan ke rumus Excel =IF(Cuaca='Cerah'; 'Main'; 'Tidur').">
+        <div class="eyebrow">02 · LOGIKA DASAR</div>
+        <h2>Fungsi IF</h2>
+        <p class="lead">Mengecek apakah <b>1 syarat</b> terpenuhi atau tidak. Jika terpenuhi, tampilkan A. Jika tidak, tampilkan B.</p>
+        
+        <div class="layout-two" style="margin-top: 30px;">
+          <div class="side-note">
+            <h3>Analogi: Messi Bermain</h3>
+            <p>Ibunya Messi kasih aturan: <em>"Kalau cuacanya cerah, kamu boleh main. Tapi kalau hujan, kamu harus tidur di kamar."</em></p>
+            <p style="margin-top: 10px; color: var(--caramel); font-weight: bold;">"Kalau pagi ini HUJAN, Messi jadi main nggak?"</p>
+          </div>
+          <div>
+            <div class="formula" style="width: 100%; text-align: center; font-size: 16px;">
+              <span style="color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 10px;">STRUKTUR RUMUS</span>
+              =IF( Syarat ; Hasil_Jika_Benar ; Hasil_Jika_Salah )
+            </div>
+            <div class="formula" style="width: 100%; text-align: center; margin-top: 15px; border-color: var(--gold);">
+              =IF(Cuaca="Cerah"; "Main"; "Tidur")
+            </div>
+          </div>
+        </div>
+        <div class="slide-number">03 / 09</div>
+      </section>
+
+      <!-- SLIDE 4: AND & OR -->
+      <section class="slide" data-title="Fungsi AND & OR" data-note="Jelaskan beda AND (ketat, semua harus terpenuhi) dan OR (longgar, salah satu cukup). Gunakan analogi Study Tour untuk AND, dan Kartu Pelajar untuk OR. Minta peserta menebak hasilnya sebelum menampilkan rumus.">
+        <div class="eyebrow">03 · LOGIKA MULTI-SYARAT</div>
+        <h2>Fungsi AND & OR</h2>
+        <p class="lead">Memberikan instruksi pada Excel ketika syaratnya lebih dari satu.</p>
+        
+        <div class="compare">
+          <div class="compare-panel raw">
+            <span class="panel-tag">Syarat Ketat</span>
+            <h3>AND (DAN)</h3>
+            <p><b>Semua syarat wajib terpenuhi.</b> Kalau satu gagal, maka gagal semua.</p>
+            <ul>
+              <li><em>Analogi:</em> Ikut Study Tour harus ada izin <b>DAN</b> sudah bayar.</li>
+              <li>Jika hanya punya izin tapi belum bayar = <b>Tidak Boleh</b>.</li>
+            </ul>
+            <div class="formula" style="margin-top: 15px; background: rgba(0,0,0,.5); font-size: 11px;">=IF(AND(Izin="Ada"; Bayar="Sudah"); "Boleh"; "Tidak")</div>
+          </div>
+          
+          <div class="compare-panel master">
+            <span class="panel-tag">Syarat Longgar</span>
+            <h3>OR (ATAU)</h3>
+            <p><b>Cukup salah satu syarat terpenuhi,</b> maka dia lolos.</p>
+            <ul>
+              <li><em>Analogi:</em> Masuk kelas bawa Kartu Pelajar <b>ATAU</b> Surat Izin.</li>
+              <li>Bawa salah satu saja = <b>Boleh Masuk</b>.</li>
+            </ul>
+            <div class="formula" style="margin-top: 15px; background: rgba(0,0,0,.5); font-size: 11px;">=IF(OR(Kartu="Ada"; Surat="Ada"); "Boleh"; "Tidak")</div>
+          </div>
+        </div>
+        <div class="slide-number">04 / 09</div>
+      </section>
+
+      <!-- SLIDE 5: IFS -->
+      <section class="slide" data-title="Fungsi IFS" data-note="IFS itu untuk banyak syarat berurutan. Gunakan analogi Satpam. Tekankan aturan emas: urutan harus dari yang paling besar/ketat ke paling kecil. Jangan lupa jelaskan trik TRUE; 'Rendah' sebagai penampung else agar tidak error #N/A.">
+        <div class="eyebrow">04 · LOGIKA BERURUTAN</div>
+        <h2>Fungsi IFS</h2>
+        <p class="lead">Mengambil keputusan dari banyak syarat yang dicek secara <b>BERURUTAN</b> (dari atas ke bawah). Berhenti di syarat pertama yang cocok.</p>
+        
+        <div class="layout-two" style="margin-top: 25px;">
+          <div>
+            <div class="side-note">
+              <h3>Analogi: Satpam Cek Tamu</h3>
+              <p>Satpam ngecek daftar tamu dari atas ke bawah. Kalau syarat pertama cocok, dia berhenti ngecek dan langsung mempersilakan masuk.</p>
+            </div>
+            <div class="bottom-callout" style="margin-top: 15px;">
+              <b>Aturan Emas:</b> Urutkan dari yang paling besar/ketat ke paling kecil!
+            </div>
+          </div>
+          <div>
+            <div class="formula" style="width: 100%; font-size: 11px; padding: 15px;">
+              <span style="color: var(--text-muted); display: block; margin-bottom: 10px;">KATEGORI BIAYA</span>
+              =IFS(<br>
+              &nbsp;&nbsp;Cost >= 5000000; "Sangat Tinggi";<br>
+              &nbsp;&nbsp;Cost >= 2000000; "Tinggi";<br>
+              &nbsp;&nbsp;Cost >= 1000000; "Sedang";<br>
+              &nbsp;&nbsp;<b>TRUE</b>; "Rendah"<br>
+              )
+            </div>
+            <p style="font-size: 11px; margin-top: 10px; color: #f87171;"><b>Kenapa ada TRUE?</b> Karena IFS nggak punya 'kotak sampah' (Else). TRUE berfungsi sebagai penampung jika semua syarat di atas tidak ada yang cocok.</p>
+          </div>
+        </div>
+        <div class="slide-number">05 / 09</div>
+      </section>
+
+      <!-- SLIDE 6: IFERROR -->
+      <section class="slide" data-title="Fungsi IFERROR" data-note="IFERROR adalah jaring pengaman. Gunakan analogi Customer Service. Jelaskan bahwa #DIV/0! atau #N/A itu jelek untuk laporan. Bungkus rumusnya dengan IFERROR agar tampilannya rapi dan ramah.">
+        <div class="eyebrow">05 · JARING PENGAMAN</div>
+        <h2>Fungsi IFERROR</h2>
+        <p class="lead">Mengganti pesan error (seperti #DIV/0! atau #N/A) dengan pesan yang lebih rapi dan ramah.</p>
+        
+        <div class="layout-two" style="margin-top: 30px;">
+          <div class="side-note">
+            <h3>Analogi: Customer Service</h3>
+            <p>Bayangkan aplikasi pesan makanan. Daripada sistem menampilkan tulisan merah <b style="color:#f87171;">'ERROR 404: SERVER DOWN'</b>, aplikasi yang baik akan menampilkan pesan: <em>"Maaf, restoran sedang tutup ya."</em></p>
+            <p style="margin-top: 10px;">Itulah kerjaan IFERROR.</p>
+          </div>
+          <div>
+            <div class="formula" style="width: 100%; text-align: center; font-size: 15px;">
+              <span style="color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 10px;">STRUKTUR RUMUS</span>
+              =IFERROR( Rumus_Asli ; "Pesan_Pengganti" )
+            </div>
+            <div class="formula" style="width: 100%; text-align: center; margin-top: 15px; border-color: var(--gold);">
+              =IFERROR(10/0; "Tidak bisa dibagi")
+            </div>
+          </div>
+        </div>
+        <div class="slide-number">06 / 09</div>
+      </section>
+
+      <!-- SLIDE 7: STUDI KASUS IFM -->
+      <section class="slide" data-title="Studi Kasus IFM" data-note="Tunjukkan bagaimana logika ini dipakai di database IFM. Contoh: Menggabungkan AND (Priority High DAN SLA Open) atau menggunakan OR (Total Cost > 2jt ATAU Priority High). Tanyakan ke peserta kenapa hasilnya bisa berbeda.">
+        <div class="eyebrow">06 · IMPLEMENTASI</div>
+        <h2>Penerapan di Database IFM</h2>
+        <p class="lead">Menggunakan logika IF Family pada data pekerjaan teknisi.</p>
+        
+        <div class="card-grid" style="margin-top: 20px;">
+          <div class="card">
+            <h3>Kasus 1: Status Darurat (IF + AND)</h3>
+            <p>Jika <b>Priority = "High"</b> DAN <b>SLA = "Open"</b>, beri status "Darurat".</p>
+            <div class="formula" style="margin-top: 10px; font-size: 11px; width: 100%;">=IF(AND(Priority="High"; SLA="Open"); "Darurat"; "Aman")</div>
+          </div>
+          <div class="card">
+            <h3>Kasus 2: Lapor Manajer (IF + OR)</h3>
+            <p>Jika <b>Total Cost > 2.000.000</b> ATAU <b>Priority = "High"</b>, tampilkan "Lapor Manajer".</p>
+            <div class="formula" style="margin-top: 10px; font-size: 11px; width: 100%;">=IF(OR(Cost>2000000; Priority="High"); "Lapor Manajer"; "Eksekusi")</div>
+          </div>
+        </div>
+        <div class="bottom-callout" style="margin-top: 20px;">
+          <b>Pancingan:</b> Kenapa pekerjaan dengan biaya murah (997 ribu) tapi Priority "High" tetap masuk "Lapor Manajer"? <em>Karena logika OR.</em>
+        </div>
+        <div class="slide-number">07 / 09</div>
+      </section>
+
+      <!-- SLIDE 8: PRAKTIK (GOOGLE SHEETS LINK) -->
+      <section class="slide" data-title="Waktunya Praktik" data-note="Arahkan peserta untuk membuka link Google Sheets yang sudah disediakan. Minta mereka mengerjakan sheet Soal IF, And, OR, IFS, dan IFERROR. Berikan waktu 30 menit dan dampingi.">
+        <div class="eyebrow">07 · HANDS-ON</div>
+        <h2>Waktunya Praktik! 🚀</h2>
+        <p class="lead">Silakan buka lembar kerja Excel (Google Sheets) peserta. Kerjakan soal secara berurutan dari IF hingga IFERROR.</p>
+        
+        <div style="text-align: center; margin-top: 40px;">
+          <a href="https://docs.google.com/spreadsheets/d/1RInteJQpCRwxbwpZH8qltM4h-JPEmdgC/edit?usp=sharing&ouid=113453549576979377139&rtpof=true&sd=true" target="_blank" class="btn-cta">
+            Buka Soal Latihan (Google Sheets)
+          </a>
+        </div>
+        
+        <div class="bottom-callout" style="margin-top: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+          <b>Tips:</b> Jangan takut error! Error adalah cara terbaik untuk belajar logika Excel. Jika rumusnya merah, cek tanda kutip (") atau titik koma (;).
+        </div>
+        <div class="slide-number">08 / 09</div>
+      </section>
+
+      <!-- SLIDE 9: PENUTUP -->
+      <section class="slide" data-title="Penutup" data-note="Tutup sesi dengan merangkum bahwa IF Family memungkinkan kita membuat keputusan otomatis. Ingatkan bahwa IFERROR bukan untuk menyembunyikan rumus yang salah, melainkan untuk mempercantik laporan jika data belum lengkap.">
+        <div class="cover" style="position: absolute; inset: 0; padding: clamp(28px, 4.3vw, 58px) clamp(28px, 5vw, 68px) 52px; display: flex; flex-direction: column; justify-content: center;">
+          <div class="eyebrow">SESI DITUTUP</div>
+          <h1 style="font-size: clamp(36px, 4vw, 56px); color: var(--text-main);">Terima Kasih.</h1>
+          <p class="lead" style="margin-top: 15px; max-width: 600px;">IF Family memungkinkan kita memberikan instruksi logika yang kompleks ke Excel, sehingga pekerjaan operasional menjadi lebih otomatis, akurat, dan efisien.</p>
+          <div class="cover-meta" style="margin-top: 30px;">
+            <span class="pill">PT Sinar Jernih Sarana</span>
+            <span class="pill">Post Management Data</span>
+          </div>
+          <div class="slide-number" style="color: #9ca3af;">09 / 09</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="controls">
+    <div class="progress-wrap">
+      <span class="counter" id="counter">01 / 09</span>
+      <div class="progress-track" aria-label="Kemajuan presentasi"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="keyboard-hint">Navigasi: ← → / Space</div>
+    <div class="navs">
+      <button class="nav-btn" id="prevBtn" type="button" aria-label="Slide sebelumnya" disabled>←</button>
+      <button class="nav-btn" id="nextBtn" type="button" aria-label="Slide selanjutnya">→</button>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <div class="note-pop" id="notePop" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
+    <div class="note-card">
+      <div class="note-head">
+        <h3 id="noteTitle">Catatan tutor</h3>
+        <button class="quiet-btn" id="closeNotes" type="button">Tutup ✕</button>
+      </div>
+      <p id="noteText"></p>
+    </div>
+  </div>
+
+  <div class="note-pop" id="outlinePop" role="dialog" aria-modal="true" aria-labelledby="outlineTitle">
+    <div class="note-card">
+      <div class="note-head">
+        <h3 id="outlineTitle">Daftar materi</h3>
+        <button class="quiet-btn" id="closeOutline" type="button">Tutup ✕</button>
+      </div>
+      <div id="outlineList"></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const counter = document.getElementById('counter');
+      const progressFill = document.getElementById('progressFill');
+      const notesBtn = document.getElementById('notesBtn');
+      const notePop = document.getElementById('notePop');
+      const noteText = document.getElementById('noteText');
+      const noteTitle = document.getElementById('noteTitle');
+      const outlinePop = document.getElementById('outlinePop');
+      const outlineList = document.getElementById('outlineList');
+      let current = 0;
+
+      const pad = (number) => String(number).padStart(2, '0');
+      
+      function showSlide(index) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === current);
+          slide.classList.toggle('exit-left', i < current);
+          slide.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+        });
+        counter.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
+        progressFill.style.width = `${((current + 1) / slides.length) * 100}%`;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        document.title = `${pad(current + 1)} — ${slides[current].dataset.title} | PMD`;
+        if (notePop.classList.contains('open')) updateNote();
+      }
+      
+      function updateNote() {
+        noteTitle.textContent = `Catatan tutor · ${slides[current].dataset.title}`;
+        noteText.textContent = slides[current].dataset.note || 'Tidak ada catatan untuk slide ini.';
+      }
+      
+      function openNotes() { updateNote(); notePop.classList.add('open'); document.getElementById('closeNotes').focus(); }
+      function closeNotes() { notePop.classList.remove('open'); notesBtn.focus(); }
+      function openOutline() { outlinePop.classList.add('open'); document.getElementById('closeOutline').focus(); }
+      function closeOutline() { outlinePop.classList.remove('open'); document.getElementById('outlineBtn').focus(); }
+
+      prevBtn.addEventListener('click', () => showSlide(current - 1));
+      nextBtn.addEventListener('click', () => showSlide(current + 1));
+      notesBtn.addEventListener('click', openNotes);
+      document.getElementById('closeNotes').addEventListener('click', closeNotes);
+      document.getElementById('outlineBtn').addEventListener('click', openOutline);
+      document.getElementById('closeOutline').addEventListener('click', closeOutline);
+      
+      document.getElementById('fullscreenBtn').addEventListener('click', async () => {
+        const target = document.getElementById('presentation');
+        try {
+          if (!document.fullscreenElement) await target.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch (error) { alert('Mode layar penuh tidak didukung pada browser ini.'); }
+      });
+      
+      [notePop, outlinePop].forEach(pop => pop.addEventListener('click', event => { if (event.target === pop) pop.classList.remove('open'); }));
+      
+      document.addEventListener('keydown', event => {
+        if (notePop.classList.contains('open') || outlinePop.classList.contains('open')) {
+          if (event.key === 'Escape') { notePop.classList.remove('open'); outlinePop.classList.remove('open'); }
+          return;
+        }
+        if (['ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); showSlide(current + 1); }
+        if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); showSlide(current - 1); }
+        if (event.key === 'Home') showSlide(0);
+        if (event.key === 'End') showSlide(slides.length - 1);
+      });
+      
+      slides.forEach((slide, index) => {
+        const li = document.createElement('button');
+        li.type = 'button';
+        li.textContent = `${pad(index + 1)}  ${slide.dataset.title}`;
+        li.style.cssText = 'display:block;width:100%;text-align:left;padding:11px 12px;margin:5px 0;border:1px solid var(--line);border-radius:8px;background:var(--bg-panel);color:var(--text-light);cursor:pointer;font-size:12px; transition: 0.2s;';
+        
+        li.addEventListener('mouseover', () => li.style.background = 'var(--bg-card)');
+        li.addEventListener('mouseout', () => li.style.background = 'var(--bg-panel)');
+        
+        li.addEventListener('click', () => { showSlide(index); closeOutline(); });
+        outlineList.appendChild(li);
+      });
+      
+      showSlide(0);
+    })();
+  </script>
+</body>
+</html>
